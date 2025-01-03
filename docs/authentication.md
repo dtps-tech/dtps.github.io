@@ -39,3 +39,7 @@ Include the signature in the X-Signature header (or any other header defined by 
 
 headers["X-Api-Key"] = {apiKey}  
 headers["X-Api-Signature"] = {signature}
+
+### Example code
+
+For detailed version of coding in multiple language please check [https://github.com/dtps-tech/dtps-partnerapi-examples](https://github.com/dtps-tech/dtps-partnerapi-examples)
