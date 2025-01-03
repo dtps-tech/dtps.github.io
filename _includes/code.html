@@ -1,0 +1,184 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="../assets/css/tab.css">
+</head>
+
+<body>
+    <div class="tabs">
+        <button class="tablink active" onclick="openTab(event, 'go')">Go</button>
+        <button class="tablink" onclick="openTab(event, 'java')">Java</button>
+        <button class="tablink" onclick="openTab(event, 'php')">PHP</button>
+        <button class="tablink" onclick="openTab(event, 'python')">Python</button>
+        <button class="tablink" onclick="openTab(event, 'ruby')">Ruby</button>
+        <button class="tablink" onclick="openTab(event, 'typescript')">Typescript</button>
+    </div>
+
+    <div id="go" class="tabcontent display-block">
+        <pre><code>
+        import (
+            "crypto/hmac"
+            "crypto/sha256"
+            "encoding/hex"
+            "fmt"
+        )
+
+        //Function to generate HMAC-SHA256 signature
+        func generateSignature(secret, path string, data []byte) string {
+            message := path
+            if data != nil {
+                message += string(data)
+            }
+    
+            h := hmac.New(sha256.New, []byte(secret))
+            h.Write([]byte(message))
+            return hex.EncodeToString(h.Sum(nil))
+        }
+    
+        signature := generateSignature({API_SECRET}, {API_URL}, postBodyParams); 
+        
+        // Example for API_URL - "/api/v1/card/list" (do not include domain)
+        // for GET api pass 3rd params as nil. Eg:
+        // signature := generateSignature({API_SECRET}, {API_URL}, nil)
+    
+        fmt.Println("Signature:", signature) 
+        </code></pre>
+    </div>
+
+    <div id="java" class="tabcontent">
+        <pre><code>
+        // Method to generate HMAC-SHA256 signature
+        public  String generateSignature(String secret, String path, String data) throws Exception {
+            String message = path + (data != null ? data : "");
+            Mac sha256Hmac = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");
+            sha256Hmac.init(secretKey);
+            byte[] hash = sha256Hmac.doFinal(message.getBytes(StandardCharsets.UTF_8));
+    
+            // Convert to Hex
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                hexString.append(String.format("%02x", b));
+            }
+            return hexString.toString();
+        }
+        
+        String signature = generateSignature({API_SECRET}, {API_URL}, postBodyParams);
+    
+        // Example for API_URL - "/api/v1/card/list" (do not include domain)
+        // for GET api pass 3rd params as null. Eg:
+        // signature := generateSignature({API_SECRET}, {API_URL}, null)
+    
+        System.out.println("Signature: " + signature);
+        </code></pre>
+    </div>
+
+    <div id="php" class="tabcontent">
+        <pre><code>
+        // Function to generate HMAC-SHA256 signature
+        function generateSignature($secret, $path, $data = null) {
+            $message = $path;
+            if ($data) {
+                $message .= $data;
+            }
+            return strtolower(hash_hmac('sha256', $message, $secret));
+        }
+    
+        $signature = generateSignature({API_SECRET}, {API_URL}, $postBodyParams);
+    
+        // Example for API_URL - "/api/v1/card/list" (do not include domain)
+        // for GET api pass 3rd params as null. Eg:
+        // signature := generateSignature({API_SECRET}, {API_URL}, null)
+    
+        echo "Signature: " . print_r($signature, true);
+        </code></pre>
+    </div>
+
+    <div id="python" class="tabcontent">
+        <pre><code>
+        import hmac
+        import hashlib
+
+        # Function to generate HMAC-SHA256 signature
+        def generate_signature(secret, path, data=None):
+            message = path
+            if data is not None:
+                message += data
+            return hmac.new(secret.encode(), message.encode(), hashlib.sha256).hexdigest()
+    
+        signature = generateSignature({API_SECRET}, {API_URL}, postBodyParams);
+    
+        // Example for API_URL - "/api/v1/card/list" (do not include domain)
+        // for GET api pass 3rd params as None. Eg:
+        // signature := generateSignature({API_SECRET}, {API_URL}, None)
+    
+        print("Signature:", signature)
+        </code></pre>
+    </div>
+
+    <div id="ruby" class="tabcontent">
+        <pre><code>
+        require 'openssl'
+
+        # Function to generate HMAC-SHA256 signature
+        def generate_signature(secret, path, data = nil)
+            message = path
+            message += data if data
+            hmac = OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), secret, message)
+            hmac.unpack1('H*') # Convert to hex string
+        end
+    
+        signature = generate_signature({API_SECRET}, {API_URL}, post_body_params);
+    
+        // Example for API_URL - "/api/v1/card/list" (do not include domain)
+        // for GET api pass 3rd params as nil. Eg:
+        // signature := generate_signature({API_SECRET}, {API_URL}, nil)
+    
+        puts "Signature: #{signature}"
+        </code></pre>
+    </div>
+
+    <div id="typescript" class="tabcontent">
+        <pre><code>
+        import CryptoJS from "crypto-js"
+
+        # Function to generate HMAC-SHA256 signature
+        const generateSignature = (secret: string, path: string, data: string) => {
+            let message = path
+            if (data) {
+                message += data
+            }
+            
+            const signature = CryptoJS.HmacSHA256(message, secret)
+            return CryptoJS.enc.Hex.stringify(signature)
+        }
+    
+        signature = generateSignature({API_SECRET}, {API_URL}, postBodyParams);
+    
+        // Example for API_URL - "/api/v1/card/list" (do not include domain)
+        // for GET api dont pass 3rd param. Eg:
+        // signature := generateSignature({API_SECRET}, {API_URL})
+    
+        console.log("Signature:", signature)
+        </code></pre>
+    </div>
+
+    <script>
+
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablinks; tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+
+    </script>
+</body>
+
+</html>

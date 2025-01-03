@@ -29,11 +29,9 @@ Construct the request message (this could include HTTP method, request body, hea
 
 Use a shared secret key and a cryptographic hash function (such as SHA-256) to generate the HMAC signature. The message is combined with the secret key and then hashed to create a signature.
 
-Example to generate signature using CryptoJS -
+### Sample code snippet
 
-> const signature = CryptoJS. HmacSHA256(message, secret) 
->
-> CryptoJS.enc. Hex.stringify(signature)`
+{% include code.html %}
 
 ### 3. Send the Signature with the Request:
 

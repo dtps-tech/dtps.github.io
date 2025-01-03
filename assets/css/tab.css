@@ -1,0 +1,34 @@
+.tabs {
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.tablink {
+    background-color: #f1f1f1;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    font-size: 17px;
+    transition: 0.3s;
+}
+
+.tablink:hover {
+    background-color: #ddd;
+}
+
+.tabcontent {
+    display: none;
+    border: 1px solid lightgrey;
+    max-height: 20rem;
+    overflow: auto;
+}
+
+.active {
+    background-color: #ccc;
+}
+
+.display-block {
+    display: block
+}
