@@ -13,22 +13,20 @@ Webhook events notify your system whenever important actions happen in the card 
 
 ## Event Summary
 
-| Event Type                         | Trigger Description                                | Example Scenarios                                 |
-|------------------------------------|----------------------------------------------------|---------------------------------------------------|
-| **CARD_APPLICATION_UPDATE**        | Card application status changes                    | Application approved / rejected                   |
-| **CARD_ACTIVATION_UPDATE**         | Card activation status changes                     | Activation successful / failed                    |
-| **CARD_LOAD_UPDATE**               | Funds are loaded to a card account                 | Top-up approved / rejected                        |
-| **USER_INFO_UPDATE**               | User profile details are updated                   | Name, email, or address updated                   |
-| **USER_DOCUMENT_UPDATE**           | User uploads or updates identity documents (KYC)   | User documents approved / rejected                |
-| **ONLINE_FEATURE_UPDATE**          | Online transaction features are updated            | Online transaction request approved / rejected    |
-| **ONLINE_FEATURE_EXPIRY_REMINDER** | Online feature is about to expire                  | Online transcation expiring soon            |
+| Event Type                  | Trigger Description                                                                 | Possible Statuses                          |
+|------------------------------|-------------------------------------------------------------------------------------|--------------------------------------------|
+| **CARD_APPLICATION_UPDATE** | Fires when an admin approves or rejects a card application submitted using `/card/application apply` | • **SUCCESS** – Approved <br> • **FAILED** – Rejected |
+| **CARD_ACTIVATION_UPDATE**  | Fires when an admin approves or rejects the card activation selfie submitted using `/card/activate`      | • **SUCCESS** – Approved <br> • **FAILED** – Rejected  |
+| **CARD_LOAD_UPDATE**        | Fires when a load request submitted using `/card/topup/apply` has been rejected or loaded by an admin    | • **SUCCESS** – Loaded <br> • **FAILED** – Rejected    |
+| **USER_INFO_UPDATE**        | Fires when the KYC details submitted using `/user/create` have been rejected and need to be resubmitted | • **FAILED** – Rejected                      |
+| **USER_DOCUMENT_UPDATE**    | Fires when one of the documents submitted in `/user/document/upload` have been approved or rejected by an admin. If any document has been rejected, they can be resubmitted using the same API call   | • **SUCCESS** – Approved <br> • **FAILED** – Rejected |
 
 ---
 
 ## Event Types
 
 ### **CARD_APPLICATION_UPDATE**
-Triggered when the status of a **card application** changes.  
+Fires when an admin approves or rejects a card application submitted using `/card/application apply`.  
 
 **Case** 
 - Application approved  
@@ -45,7 +43,7 @@ Triggered when the status of a **card application** changes.
 ```
 
 ### **CARD_ACTIVATION_UPDATE**
-Triggered when the status of a **card activation** changes.  
+Fires when an admin approves or rejects the card activation selfie submitted using `/card/activate`.
 
 **Case** 
 - Activated 
@@ -62,7 +60,7 @@ Triggered when the status of a **card activation** changes.
 ```
 
 ### **CARD_LOAD_UPDATE**
-Triggered when amount is **loaded to a card account**.  
+Fires when a load request submitted using `/card/topup/apply` has been rejected or loaded by an admin.
 
 **Case** 
 - Card topup approved 
@@ -79,23 +77,22 @@ Triggered when amount is **loaded to a card account**.
 ```
 
 ### **USER_INFO_UPDATE**
-Triggered when **user profile information** changes.
+Fires when the KYC details submitted using `/user/create` have been rejected and need to be resubmitted.
 
-**Case** 
-- User details updated 
-- User update failed
+**Case**
+- Kyc rejected
 
 **Sample Payload**
 ```json
 {
     "userID": "user-123",
-    "status": "SUCCESS / FAILED",
+    "status": "FAILED",
     "error": null
 }
 ```
 
 ### **USER_DOCUMENT_UPDATE**
-Triggered when a **user uploads or updates identity documents** (KYC).
+Fires when one of the documents submitted in `/user/document/upload` have been approved or rejected by an admin. If any document has been rejected, they can be resubmitted using the same API call.
 
 **Case** 
 - Documents updated 
@@ -109,36 +106,5 @@ Triggered when a **user uploads or updates identity documents** (KYC).
     "docName":    "PASSPORT / SIGNATURE / SELFIE_WITH_PASSPORT",
     "status":     "SUCCESS / FAILED",
     "error":      null,
-}
-```
-
-### **ONLINE_FEATURE_UPDATE**
-Triggered when **online request** is updated.
-
-**Case** 
-- Request approved 
-- Request rejected
-
-**Sample Payload**
-```json
-{
-    "userID":  "user-123",
-    "cardID":  "card-123",
-    "status":  "SUCCESS / FAILED",
-    "remarks": null,
-}
-```
-
-### **ONLINE_FEATURE_EXPIRY_REMINDER**
-Triggered when an **online request is about to expire**.
-
-**Case** 
-- Online txn request is about to expire
-
-**Sample Payload**
-```json
-{
-    "userID": "user-123",
-    "cardID": "card-123",
 }
 ```
